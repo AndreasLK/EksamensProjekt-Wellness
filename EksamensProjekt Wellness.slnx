@@ -1,1 +1,4 @@
-<Solution />
+<Solution>
+  <Project Path="ReceptionistUI/ReceptionistUI.Client/ReceptionistUI.Client.csproj" />
+  <Project Path="ReceptionistUI/ReceptionistUI/ReceptionistUI.csproj" />
+</Solution>
