@@ -1,4 +1,4 @@
-﻿using Core.Domain.Entities;
+﻿using Core.Domain.Entities.Leases;
 
 namespace Core.Domain.Interfaces.Leases
 {
