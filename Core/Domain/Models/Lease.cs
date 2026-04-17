@@ -6,9 +6,9 @@ namespace Core.Domain.Models
 {
     public class Lease: Entity
     {
-        private 
-        Lease() : base() {
-        
+        private TimeSlot timeSlot { get; }
+        Lease(TimeSlot timeSlot) : base() {
+            this.timeSlot = timeSlot;
         }
     }
 }

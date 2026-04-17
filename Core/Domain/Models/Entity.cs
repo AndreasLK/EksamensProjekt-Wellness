@@ -6,7 +6,7 @@ namespace Core.Domain.Models
 {
     public class Entity
     {
-        public Guid Id { get; }
-        public Entity(Guid? id = null) => Id = id ?? Guid.NewGuid();
+        public Guid id { get; }
+        public Entity(Guid? id = null) => this.id = id ?? Guid.NewGuid();
     }
 }
