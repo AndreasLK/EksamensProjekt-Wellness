@@ -1,5 +1,6 @@
 <Solution>
   <Project Path="Core/Core.csproj" />
+  <Project Path="Infrastructure/Infrastructure.csproj" Id="1a6022a2-c5c0-4a55-846a-90ce34ea029a" />
   <Project Path="ReceptionistUI/ReceptionistUI.Client/ReceptionistUI.Client.csproj" />
   <Project Path="ReceptionistUI/ReceptionistUI/ReceptionistUI.csproj" />
 </Solution>
