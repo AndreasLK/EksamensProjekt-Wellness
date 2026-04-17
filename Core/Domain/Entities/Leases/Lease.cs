@@ -14,7 +14,7 @@
         /// <summary>
         /// The unique identifier of the practitioner whose time is being locked.
         /// </summary>
-        public Guid PractinionerId { get; private set; }
+        public Guid PracticionerId { get; private set; }
 
 
         /// <summary>
@@ -40,19 +40,19 @@
         /// Typically used when creating a new lease or rehydrating one from persistence.
         /// </summary>
         /// <param name="timeSlot">The requested time interval to reserve.</param>
-        /// <param name="practinionerId">The ID of the practitioner to lock.</param>
+        /// <param name="PracticionerId">The ID of the practitioner to lock.</param>
         /// <param name="roomId">The ID of the room to lock.</param>
         /// <param name="expiryTime">The server-calculated expiration timestamp.</param>
         /// <param name="id">The unique identifier for this entity instance.</param>
         Lease(
             TimeSlot timeSlot,
-            Guid practinionerId,
+            Guid PracticionerId,
             Guid roomId,
             DateTimeOffset expiryTime,
             Guid id) : base(id)
         {
             this.TimeSlot = timeSlot;
-            this.PractinionerId = practinionerId;
+            this.PracticionerId = PracticionerId;
             this.RoomId = roomId;
             this.ExpiryTime = expiryTime;
         }
