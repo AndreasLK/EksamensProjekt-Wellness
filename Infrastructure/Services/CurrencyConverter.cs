@@ -1,6 +1,6 @@
 ﻿using Domain.Enums;
-using Domain.Interfaces.Currency;
 using Domain.ValueObjects;
+using Domain.Interfaces.Currency;
 
 namespace Infrastructure.Services
 {

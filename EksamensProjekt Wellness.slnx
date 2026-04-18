@@ -1,6 +1,6 @@
 <Solution>
   <Project Path="Application/Application.csproj" Id="1d38d6cb-f47c-4d20-b530-09a9706c1eeb" />
-  <Project Path="Core/Domain.csproj" Id="5ed06cad-956c-c94d-bc0c-e89e30a887c2" />
+  <Project Path="Domain/Domain.csproj" />
   <Project Path="Infrastructure/Infrastructure.csproj" Id="1a6022a2-c5c0-4a55-846a-90ce34ea029a" />
   <Project Path="Server/Server.Client/Client.csproj" Id="c7b0302c-4186-403a-95e2-d2fd21d46379" />
   <Project Path="Server/Server/Server.csproj" Id="7c152db0-5616-41aa-a108-eeb0b7cc6c10" />
