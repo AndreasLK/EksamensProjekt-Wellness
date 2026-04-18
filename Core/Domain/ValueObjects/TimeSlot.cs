@@ -3,11 +3,11 @@
     public record TimeSlot
     {
         /// <summary>The beginning of the reserved time slot.</summary>
-        public DateTimeOffset StartDateTime { get; }
+        public DateTimeOffset StartDateTime { get; init; }
 
 
         /// <summary>The end of the reserved time slot.</summary>
-        public DateTimeOffset EndDateTime { get; }
+        public DateTimeOffset EndDateTime { get; init; }
 
 
         /// <summary>
