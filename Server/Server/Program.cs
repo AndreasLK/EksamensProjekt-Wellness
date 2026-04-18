@@ -10,7 +10,7 @@ builder.Services.AddRazorComponents()
     .AddInteractiveWebAssemblyComponents();
 
 builder.Services.Configure<GoogleRoutesSettings>(
-    builder.Configuration.GetSection("GoogleMaps");
+    builder.Configuration.GetSection("GoogleMaps"));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
