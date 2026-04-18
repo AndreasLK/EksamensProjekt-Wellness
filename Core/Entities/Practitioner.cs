@@ -1,5 +1,4 @@
-﻿using Core.Domain.Enums;
-using Domain.Entities.Treatment;
+﻿using Domain.Entities.Treatment;
 using Domain.ValueObjects;
 
 namespace Domain.Entities
@@ -18,6 +17,26 @@ namespace Domain.Entities
         private readonly List<Certification> _certifications = new();
         public IReadOnlyCollection<Certification> Certifications => _certifications.AsReadOnly();
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Practitioner"/> class.
+        /// </summary>
+        /// <param name="firstName">The practitioner's first name.</param>
+        /// <param name="lastName">The practitioner's last name.</param>
+        /// <param name="email">The practitioner's email.</param>
+        /// <param name="phone">The practitioner's phone number.</param>
+        /// <param name="id">Optional identifier for rehydrating existing practitioners from the database.</param>
+        public Practitioner(
+            string firstName,
+            string lastName,
+            string email,
+            string phone,
+            Guid? id = null) : base(id)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+            Email = email;
+            Phone = phone;
+        }
 
         /// <summary>
         /// Validates if the practitioner holds the authorization required for a specific treatment.
