@@ -1,9 +1,10 @@
-﻿using Core.Domain.ValueObjects;
+﻿using Domain.Entities;
+using Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Core.Domain.Entities.Treatment
+namespace Domain.Entities.Treatment
 {
     /// <summary>
     /// Represents a specific variation of a treatment (e.g., 30 min vs 60 min).

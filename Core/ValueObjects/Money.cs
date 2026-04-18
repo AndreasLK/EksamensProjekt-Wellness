@@ -1,6 +1,6 @@
-﻿using Core.Domain.Enums;
+﻿using Domain.Enums;
 
-namespace Core.Domain.ValueObjects
+namespace Domain.ValueObjects
 {
     /// <summary>
     /// Represents a monetary value with a specific Currency.

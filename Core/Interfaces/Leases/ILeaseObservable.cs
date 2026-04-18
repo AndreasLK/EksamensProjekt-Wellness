@@ -1,6 +1,6 @@
-﻿using Core.Domain.Entities.Leases;
+﻿using Domain.Entities.Leases;
 
-namespace Core.Domain.Interfaces.Leases
+namespace Domain.Interfaces.Leases
 {
     /// <summary>
     /// Reactive events used to update the UI state based on server broadcasts.

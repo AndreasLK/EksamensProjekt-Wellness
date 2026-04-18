@@ -1,6 +1,6 @@
-﻿using Core.Domain.Enums;
+﻿using Domain.Enums;
 
-namespace Core.Domain.Interfaces.Leases
+namespace Domain.Interfaces.Leases
 {
     /// <summary>
     /// Manages the lifecycle of the real-time connection.

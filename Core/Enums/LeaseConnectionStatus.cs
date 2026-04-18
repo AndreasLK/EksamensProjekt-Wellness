@@ -1,4 +1,4 @@
-﻿namespace Core.Domain.Enums
+﻿namespace Domain.Enums
 {
     /// <summary>
     /// Represents the various states of the connection between the client 

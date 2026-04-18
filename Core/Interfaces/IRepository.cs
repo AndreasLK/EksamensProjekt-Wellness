@@ -1,6 +1,6 @@
-﻿using Core.Domain.Entities;
+﻿using Domain.Entities;
 
-namespace Core.Domain.Interfaces
+namespace Domain.Interfaces
 {
     /// <summary>
     /// A generic repository interface for managing Domain Entities.

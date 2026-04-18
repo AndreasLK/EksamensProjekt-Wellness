@@ -1,4 +1,7 @@
-﻿namespace Core.Domain.Entities.Leases
+﻿using Domain.Entities;
+using Domain.ValueObjects;
+
+namespace Domain.Entities.Leases
 {
     /// <summary>
     /// Represents a temporary server-side lock on specific clinic resources.

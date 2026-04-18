@@ -1,6 +1,7 @@
 <Solution>
-  <Project Path="Core/Core.csproj" />
+  <Project Path="Application/Application.csproj" Id="1d38d6cb-f47c-4d20-b530-09a9706c1eeb" />
+  <Project Path="Core/Domain.csproj" Id="5ed06cad-956c-c94d-bc0c-e89e30a887c2" />
   <Project Path="Infrastructure/Infrastructure.csproj" Id="1a6022a2-c5c0-4a55-846a-90ce34ea029a" />
-  <Project Path="ReceptionistUI/ReceptionistUI.Client/ReceptionistUI.Client.csproj" />
-  <Project Path="ReceptionistUI/ReceptionistUI/ReceptionistUI.csproj" />
+  <Project Path="ReceptionistUI/ReceptionistUI.Client/Client.csproj" />
+  <Project Path="ReceptionistUI/ReceptionistUI/Server.csproj" />
 </Solution>

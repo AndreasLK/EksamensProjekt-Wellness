@@ -1,6 +1,6 @@
-﻿using Core.Domain.ValueObjects;
+﻿using Domain.ValueObjects;
 
-namespace Core.Domain.Interfaces
+namespace Domain.Interfaces.Currency
 {
     /// <summary>
     /// Provides a mechanism for converting monetary values between different currencies.

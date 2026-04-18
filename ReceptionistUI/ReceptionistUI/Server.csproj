@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ReceptionistUI.Client\ReceptionistUI.Client.csproj" />
+    <ProjectReference Include="..\ReceptionistUI.Client\Client.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="10.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="10.0.6" />
   </ItemGroup>

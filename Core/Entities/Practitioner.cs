@@ -1,10 +1,10 @@
-﻿using Core.Domain.Entities.Treatment;
-using Core.Domain.Enums;
-using Core.Domain.ValueObjects;
+﻿using Core.Domain.Enums;
+using Domain.Entities.Treatment;
+using Domain.ValueObjects;
 
-namespace Core.Domain.Entities
+namespace Domain.Entities
 {
-    public class Practicioner : Entity
+    public class Practitioner : Entity
     {
         public string FirstName { get; private set; }
         public string LastName { get; private set; }

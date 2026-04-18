@@ -1,4 +1,4 @@
-﻿namespace Core.Domain.Entities
+﻿namespace Domain.ValueObjects
 {
     public record TimeSlot
     {

@@ -1,9 +1,10 @@
-﻿using Core.Domain.Enums;
+﻿using Domain.Entities;
+using Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Core.Domain.Entities.Treatment
+namespace Domain.Entities.Treatment
 {
     /// <summary>
     /// Represents a high-level category of service (e.g., "Sportsmassage" or "Fysioterapi").

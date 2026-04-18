@@ -1,6 +1,6 @@
-﻿using Core.Domain.Entities;
+﻿using Domain.ValueObjects;
 
-namespace Core.Domain.Interfaces.Leases
+namespace Domain.Interfaces.Leases
 {
     /// <summary>
     /// Commands that change the state of a lease on the server.

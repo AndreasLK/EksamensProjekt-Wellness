@@ -1,4 +1,4 @@
-﻿namespace Core.Domain.Entities
+﻿namespace Domain.Entities
 {
     /// <summary>
     /// Base class for all Domain Entities. 

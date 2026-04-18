@@ -1,4 +1,4 @@
-﻿namespace Core.Domain.Enums
+﻿namespace Domain.Enums
 {
     /// <summary>
     /// Defines the supported currencies within the system.
