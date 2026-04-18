@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Domain.Interfaces;
+using Domain.ValueObjects.OpeningHours;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,7 +8,7 @@ namespace Domain.Entities.Clinics
 {
     /// <summary>
     /// Represents a specific physical treatment or consultation room within a clinic.
-    /// Manages capacity and specialized equipment availability.
+    /// Manages its own resource constraints, equipment, and operational filtering.
     /// </summary>
     public class Room : Entity
     {
@@ -38,6 +40,31 @@ namespace Domain.Entities.Clinics
         /// Gets the collection of equipment available in this room.
         /// </summary>
         public IReadOnlyCollection<string> Equipment => _equipment.AsReadOnly();
+
+
+        /// <summary>
+        /// Specific recurring weekly schedule if the room's availability differs 
+        /// from the clinic's standard hours.
+        /// </summary>
+        private readonly List<OpeningHours> _weeklySchedule = new();
+
+
+        /// <summary>
+        /// Gets the room-specific weekly recurring schedule.
+        /// </summary>
+        public IReadOnlyCollection<OpeningHours> WeeklySchedule => _weeklySchedule.AsReadOnly();
+
+
+        /// <summary>
+        /// One-off overrides for the room, such as maintenance blackouts or seasonal use.
+        /// </summary>
+        private readonly List<SpecialOpeningHours> _specialOverrides = new();
+
+
+        /// <summary>
+        /// Gets the collection of date-specific overrides for the room.
+        /// </summary>
+        public IReadOnlyCollection<SpecialOpeningHours> SpecialOverrides => _specialOverrides.AsReadOnly();
 
 
         /// <summary>
@@ -75,6 +102,42 @@ namespace Domain.Entities.Clinics
 
 
         /// <summary>
+        /// Determines if the room itself is operational at a given point in time.
+        /// </summary>
+        /// <param name="dateTime">The timestamp to verify.</param>
+        /// <returns>
+        /// True if the room has no restrictions or falls within its specific rules.
+        /// False if a room-level rule specifically blocks the time.
+        /// </returns>
+        /// <remarks>
+        /// This logic acts as a secondary filter. The primary check should always be 
+        /// against the Clinic's schedule first.
+        /// </remarks>
+        public bool IsAvailableAt(DateTimeOffset dateTime)
+        {
+            var date = DateOnly.FromDateTime(dateTime.Date);
+            var time = TimeOnly.FromDateTime(dateTime.DateTime);
+
+            // 1. Check Special Overrides (e.g., "Painting" or "Temporary Availability")
+            var special = _specialOverrides.FirstOrDefault(s => s.Date == date);
+            if (special != null)
+            {
+                return IsTimeWithinPeriod(special, time);
+            }
+
+            // 2. Check Weekly Schedule (e.g., "This room is only used on Mondays")
+            var weekly = _weeklySchedule.FirstOrDefault(w => w.DayOfWeek == dateTime.DayOfWeek);
+            if (weekly != null)
+            {
+                return IsTimeWithinPeriod(weekly, time);
+            }
+
+            // 3. Fallback: If no room-specific rules exist, the room follows the building hours.
+            return true;
+        }
+
+
+        /// <summary>
         /// Assigns a new piece of equipment to the room.
         /// </summary>
         /// <param name="equipmentName">The name of the resource (e.g., "Massage Table").</param>
@@ -100,6 +163,35 @@ namespace Domain.Entities.Clinics
             }
 
             return _equipment.Remove(equipmentName);
+        }
+
+
+        /// <summary>
+        /// Updates the recurring weekly schedule for the room.
+        /// </summary>
+        public void SetWeeklySchedule(IEnumerable<OpeningHours> schedule)
+        {
+            _weeklySchedule.Clear();
+            _weeklySchedule.AddRange(schedule);
+        }
+
+
+        /// <summary>
+        /// Adds a specific date override for the room.
+        /// </summary>
+        public void AddOverride(SpecialOpeningHours special)
+        {
+            _specialOverrides.RemoveAll(o => o.Date == special.Date);
+            _specialOverrides.Add(special);
+        }
+
+
+        /// <summary>
+        /// Helper to check time boundaries against a specific operational period.
+        /// </summary>
+        private bool IsTimeWithinPeriod(IOperationalPeriod? period, TimeOnly time)
+        {
+            return period?.Window.Contains(time) ?? false;
         }
     }
 }

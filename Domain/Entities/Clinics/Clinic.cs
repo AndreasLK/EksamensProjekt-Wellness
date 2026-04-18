@@ -25,12 +25,21 @@ namespace Domain.Entities.Clinics
 
 
         /// <summary>
-        /// The total number of available treatment rooms at this location.
+        /// The collection of treatment rooms available at this clinic.
         /// </summary>
-        /// <remarks>
-        /// This value acts as the concurrency limit for simultaneous bookings.
-        /// </remarks>
-        public int RoomCount { get; private set; }
+        private readonly List<Room> _rooms = new();
+
+
+        /// <summary>
+        /// Gets all rooms assigned to this clinic.
+        /// </summary>
+        public IReadOnlyCollection<Room> Rooms => _rooms.AsReadOnly();
+
+
+        /// <summary>
+        /// Gets the total number of rooms, providing a quick capacity check.
+        /// </summary>
+        public int TotalRoomCount => _rooms.Count;
 
 
         /// <summary>
@@ -61,13 +70,11 @@ namespace Domain.Entities.Clinics
         /// </summary>
         /// <param name="name">The display name of the clinic.</param>
         /// <param name="address">The full physical address.</param>
-        /// <param name="roomCount">The number of treatment rooms (must be greater than zero).</param>
         /// <param name="id">Optional existing identifier for database rehydration.</param>
         /// <exception cref="ArgumentException">Thrown when name or address is empty, or roomCount is non-positive.</exception>
         public Clinic(
             string name,
             string address,
-            int roomCount,
             Guid? id = null) : base(id)
         {
             if (string.IsNullOrWhiteSpace(name))
@@ -80,14 +87,8 @@ namespace Domain.Entities.Clinics
                 throw new ArgumentException("Clinic address cannot be empty.");
             }
 
-            if (roomCount <= 0)
-            {
-                throw new ArgumentException("A clinic must have at least one treatment room.");
-            }
-
             Name = name;
             Address = address;
-            RoomCount = roomCount;
         }
 
         /// <summary>
@@ -149,6 +150,27 @@ namespace Domain.Entities.Clinics
         private bool IsTimeWithinPeriod(IOperationalPeriod? period, TimeOnly time)
         {
             return period?.Window.Contains(time) ?? false;
+        }
+
+
+        /// <summary>
+        /// Adds a new room to the clinic's inventory.
+        /// </summary>
+        /// <param name="room">The room to add.</param>
+        public void AddRoom(Room room)
+        {
+            if (room == null)
+            {
+                throw new ArgumentNullException(nameof(room));
+            }
+
+            // Ensures room names are unique within this specific clinic
+            if (_rooms.Any(r => r.Name.Equals(room.Name, StringComparison.OrdinalIgnoreCase)))
+            {
+                throw new InvalidOperationException($"A room with the name '{room.Name}' already exists in this clinic.");
+            }
+
+            _rooms.Add(room);
         }
     }
 }
