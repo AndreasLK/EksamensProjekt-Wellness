@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Domain.Interfaces
+﻿namespace Domain.Interfaces
 {
     /// <summary>
     /// Defines the business logic for managing and validating wellness clinic bookings.

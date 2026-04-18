@@ -1,5 +1,11 @@
 ﻿namespace Domain.ValueObjects
 {
+    /// <summary>
+    /// Represents a specific temporal interval with a fixed start and end point.
+    /// </summary>
+    /// <remarks>
+    /// Enforces temporal integrity by ensuring the start time always precedes the end time.
+    /// </remarks>
     public record TimeSlot
     {
         /// <summary>The beginning of the reserved time slot.</summary>
@@ -26,6 +32,16 @@
             this.StartDateTime = startDateTime;
             this.EndDateTime = endDateTime;
 
+        }
+
+        /// <summary>
+        /// Determines whether this time slot overlaps with another specified interval.
+        /// </summary>
+        /// <param name="other">The other time slot to compare against.</param>
+        /// <returns>True if the intervals intersect; otherwise, false.</returns>
+        public bool Overlaps(TimeSlot other)
+        {
+            return this.StartDateTime < other.EndDateTime && other.StartDateTime < this.EndDateTime;
         }
     }
 }

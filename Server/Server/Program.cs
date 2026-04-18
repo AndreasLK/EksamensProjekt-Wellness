@@ -1,4 +1,5 @@
 using Client.Pages;
+using Infrastructure.Services;
 using Server.Components;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,7 +9,8 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
 
-
+builder.Services.Configure<GoogleRoutesSettings>(
+    builder.Configuration.GetSection("GoogleMaps");
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

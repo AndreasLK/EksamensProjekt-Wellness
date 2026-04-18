@@ -4,7 +4,6 @@ namespace Domain.ValueObjects
 {
     /// <summary>
     /// Represents a monetary value with a specific Currency.
-    /// Implemented as a DDD Value Object to ensure immutability and a valid state.
     /// </summary>
     public record Money
     {

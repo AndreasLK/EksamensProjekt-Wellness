@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Domain.ValueObjects.OpeningHours
+﻿namespace Domain.ValueObjects.OpeningHours
 {
     public record TimeWindow
     {

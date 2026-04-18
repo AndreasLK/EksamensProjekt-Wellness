@@ -8,7 +8,7 @@ Konsekvent brug af standard C# navngivningskonventioner er essentiel for læsbar
 | Element | Konvention | Eksempel | Beskrivelse |
 | :--- | :--- | :--- | :--- |
 | **Klasser, Interfaces, Metoder** | PascalCase | `public class Customer` | Hvert ord starter med stort. |
-| **Properties** | pascalCase | `public int CustomerId { get; set; }` | Offentlige properties bruger pascalCase. |
+| **Properties** | PascalCase | `public int CustomerId { get; set; }` | Offentlige properties bruger PascalCase. |
 | **Felter (Fields)** | _camelCase | `private readonly string _name;` | Private felter starter med underscore (_) efterfulgt af camelCase. |
 | **Lokale Variabler, Metode Parametre** | camelCase | `int itemCount = 0;` | Lokale variabler og metoder parametre bruger camelCase. |
 | **Konstanter** | UPPER_CASE | `public const int MAX_AMOUNT = 100;` | Statiske readonly eller const felter. |
