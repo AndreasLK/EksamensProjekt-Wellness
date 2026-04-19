@@ -9,6 +9,9 @@ using System.Text;
 
 namespace Domain.Services
 {
+    /// <summary>
+    /// Enforces physical travel constraints and identifies availability windows for practitioners.
+    /// </summary>
     public class PractitionerAvailabilityService
     {
         private readonly ITravelTimeService _travelTimeService;
@@ -34,8 +37,8 @@ namespace Domain.Services
         /// <param name="previousAddress">Location of immediate preceding appointment.</param>
         /// <param name="nextStartTime">Start time of immediate subsequent appointment.</param>
         /// <param name="nextAddress">Location of immediate subsequent appointment.</param>
-        /// <returns>True if travel transitions are physically possible; otherwise, false.</returns>
-        public async Task<bool> IsScheduleFeasibleAsync(
+        /// <returns>A result containing success status and calculated temporal buffers.</returns>
+        public async Task<FeasibilityResult> CheckFeasibilityAsync(
             TimeSlot requestedSlot,
             Address requestedAddress,
             DateTimeOffset? previousEndTime,
@@ -43,65 +46,71 @@ namespace Domain.Services
             DateTimeOffset? nextStartTime,
             Address? nextAddress)
         {
+            DateTimeOffset? earliestArrival = null;
+            DateTimeOffset? latestDeparture = null;
 
             //Check if practitioner can get from previous booking to requested booking
             if (previousEndTime.HasValue && previousAddress != null)
             {
-                if (! await this.CanTravelInTimeAsync(
+                TimeSpan travelTime = await this.CalculateTravelDurationAsync(
                     start: previousAddress,
                     end: requestedAddress,
-                    departure: previousEndTime.Value,
-                    arrival: requestedSlot.StartDateTime,
-                    anchor: TimeAnchor.Arrival))
-                {
-                    return false;
-                }
+                    time: previousEndTime.Value,
+                    anchor: TimeAnchor.Arrival);
+                earliestArrival = previousEndTime.Value.Add(travelTime);
             }
 
             //Check if practitioner can get from requested booking to next booking
             if (nextStartTime.HasValue && nextAddress != null)
             {
-                if (! await this.CanTravelInTimeAsync(
+                TimeSpan travelTime = await this.CalculateTravelDurationAsync(
                     start: requestedAddress,
                     end: nextAddress,
-                    departure: requestedSlot.EndDateTime,
-                    arrival: nextStartTime.Value,
-                    anchor: TimeAnchor.Departure)
-
-                    )
-                {
-                    return false;
-                }
+                    time: nextStartTime.Value,
+                    anchor: TimeAnchor.Departure);
+                latestDeparture = nextStartTime.Value.Subtract(travelTime);
             }
-            return true;
+
+            bool isFeasible = true;
+
+            if (earliestArrival.HasValue && earliestArrival > requestedSlot.StartDateTime)
+            {
+                isFeasible = false;
+            }
+
+            if (latestDeparture.HasValue && requestedSlot.EndDateTime > latestDeparture)
+            {
+                isFeasible = false;
+            }
+
+            return isFeasible
+                ? FeasibilityResult.Success()
+                : FeasibilityResult.Failure(
+                    earliestPossibleArrival: earliestArrival, 
+                    latestPossibleDeparture: latestDeparture);
         }
 
 
         /// <summary>
-        /// Evaluates if travel between two points is possible within the allotted time window.
+        /// Resolves the physical travel duration between two addresses.
         /// </summary>
-        private async Task<bool> CanTravelInTimeAsync(
+        private async Task<TimeSpan> CalculateTravelDurationAsync(
             Address start,
             Address end,
-            DateTimeOffset departure,
-            DateTimeOffset arrival,
-            TimeAnchor anchor)
+            DateTimeOffset time,
+            TimeAnchor anchor
+            )
         {
-            // Skips calculation if locations are identical.
             if (start.Equals(end))
             {
-                return true;
+                return TimeSpan.Zero;
             }
 
-            DateTimeOffset referenceTime = (anchor == TimeAnchor.Arrival) ? arrival : departure;
-
-            TimeSpan travelDuration = await this._travelTimeService.GetTravelDurationAsync(
-                start,
-                end,
-                anchor,
-                referenceTime);
-
-            return departure.Add(travelDuration) <= arrival;
+            return await this._travelTimeService.GetTravelDurationAsync(
+                origin: start,
+                destination: end,
+                anchor: anchor,
+                referenceTime: time);
         }
     }
 }
