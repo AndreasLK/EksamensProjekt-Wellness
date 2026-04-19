@@ -1,20 +1,26 @@
-﻿namespace Domain.Interfaces
+﻿using Domain.ValueObjects;
+
+namespace Domain.Interfaces
 {
     /// <summary>
-    /// Defines the business logic for managing and validating wellness clinic bookings.
+    /// Manages the transition of temporary leases into permanent database records.
     /// </summary>
     public interface IBookingService
     {
 
         /// <summary>
-        /// Validates and creates a new booking if all constraints are met.
+        /// Finalizes a temporary lease by attaching customer and treatment details 
+        /// and persisting it as a confirmed Booking.
         /// </summary>
-        /// <param name="practitionerId">The practitioner performing the service.</param>
-        /// <param name="clinicId">The target clinic location.</param>
-        /// <param name="roomId">The specific room requested.</param>
-        /// <param name="start">The requested start time.</param>
-        /// <param name="duration">The length of the treatment as a <see cref="TimeSpan"/>.</param>
-        /// <returns>True if the booking was created successfully; otherwise, false.</returns>
-        Task<bool> CreateBookingAsync(Guid practitionerId, Guid clinicId, Guid roomId, DateTimeOffset start, TimeSpan duration);
+        /// <param name="leaseId">The unique identifier of the active in-memory lease.</param>
+        /// <param name="customerId">The customer receiving the service.</param>
+        /// <param name="treatmentTypeId">The specific treatment being performed.</param>
+        /// <param name="finalPrice">The final calculated price for the session.</param>
+        /// <returns>True if the booking was successfully persisted; otherwise, false.</returns>
+        Task<bool> FinalizeBookingAsync(
+            Guid leaseId,
+            Guid customerId,
+            Guid treatmentTypeId,
+            Money finalPrice);
     }
 }

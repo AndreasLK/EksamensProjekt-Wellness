@@ -1,4 +1,5 @@
 ﻿using Domain.Interfaces;
+using Domain.ValueObjects;
 using Domain.ValueObjects.OpeningHours;
 
 namespace Domain.Entities.Clinics
@@ -18,7 +19,7 @@ namespace Domain.Entities.Clinics
         /// <summary>
         /// The physical street address used for location services and travel time calculations.
         /// </summary>
-        public string Address { get; private set; }
+        public Address Address { get; private set; }
 
 
         /// <summary>
@@ -71,17 +72,12 @@ namespace Domain.Entities.Clinics
         /// <exception cref="ArgumentException">Thrown when name or address is empty, or roomCount is non-positive.</exception>
         public Clinic(
             string name,
-            string address,
+            Address address,
             Guid? id = null) : base(id)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
                 throw new ArgumentException("Clinic name cannot be empty.");
-            }
-
-            if (string.IsNullOrWhiteSpace(address))
-            {
-                throw new ArgumentException("Clinic address cannot be empty.");
             }
 
             Name = name;

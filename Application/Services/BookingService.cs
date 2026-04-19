@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Application.Services
 {
-    public class BookingService : IBookingService
+    public class BookingService// : IBookingService
     {
         private readonly IRepository<Booking> _bookingRepository;
         private readonly IRepository<Practitioner> _practitionerRepository;
@@ -32,6 +32,7 @@ namespace Application.Services
 
 
         
+        //TODO
 
     }
 }

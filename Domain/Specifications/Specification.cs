@@ -2,27 +2,56 @@
 
 namespace Domain.Specifications
 {
+    /// <summary>
+    /// Base contract for query criteria and database-level sorting.
+    /// </summary>
+    /// <typeparam name="T">Entity type.</typeparam>
     public abstract class Specification<T>
     {
         /// <summary>
-        /// This is the 'Blueprint' of our search. It returns a LINQ expression 
-        /// that the database driver (EF Core) can translate directly into SQL.
+        /// Filter criteria expression.
         /// </summary>
-        /// <returns>A piece of C# code that acts as a filter (e.g., x => x.Id == 5).</returns>
+        /// <returns>A piece of C# code that acts as a filter like:( x => x.Id == 5).</returns>
         public abstract Expression<Func<T, bool>> ToExpression();
 
 
+        /// <summary>
+        /// Ascending sort criteria.
+        /// </summary>
+        public Expression<Func<T, object>>? OrderBy { get; private set; }
+
 
         /// <summary>
-        /// Allows us to test the rule against a single object in memory without a database.
-        /// This is the secret to making our search logic unit-testable.
+        /// Descending sort criteria.
         /// </summary>
-        /// <param name="entity">The specific object we want to check against the rule.</param>
-        /// <returns>True if the object matches the rule; otherwise, false.</returns>
-        public bool IsSatisiedBy(T entity)
-        {
-            var predicate = ToExpression().Compile();
-            return predicate(entity);
-        }
+        public Expression<Func<T, object>>? OrderByDescending { get; private set; }
+
+
+        /// <summary>
+        /// Sets primary ascending sort.
+        /// </summary>
+        protected void ApplyOrderBy(
+            Expression<Func<T, object>> orderByExpression
+            ) => OrderBy = orderByExpression;
+
+
+        /// <summary>
+        /// Sets primary descending sort.
+        /// </summary>
+        protected void ApplyOrderByDescending(
+            Expression<Func<T, object>> orderByDescendingExpression
+            ) => OrderByDescending = orderByDescendingExpression;
+
+
+        /// <summary>
+        /// Maximum records to retrieve.
+        /// </summary>
+        public int? Take { get; private set; }
+
+
+        /// <summary>
+        /// Restricts result set to specified count.
+        /// </summary>
+        protected void ApplyTake(int count) => Take = count;
     }
 }
