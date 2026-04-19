@@ -1,4 +1,5 @@
-﻿using Domain.ValueObjects;
+﻿using Domain.Entities;
+using Domain.ValueObjects;
 
 namespace Domain.Interfaces
 {
@@ -17,7 +18,7 @@ namespace Domain.Interfaces
         /// <param name="treatmentTypeId">The specific treatment being performed.</param>
         /// <param name="finalPrice">The final calculated price for the session.</param>
         /// <returns>True if the booking was successfully persisted; otherwise, false.</returns>
-        Task<bool> FinalizeBookingAsync(
+        Task<Booking?> FinalizeBookingAsync(
             Guid leaseId,
             Guid customerId,
             Guid treatmentTypeId,
