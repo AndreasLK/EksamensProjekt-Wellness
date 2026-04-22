@@ -35,7 +35,7 @@ namespace UseCase.Bookings.Queries
         {
             get
             {
-                return FinalPrice.Amount < BasePrice.Amount;
+                return DiscountReason != DiscountReason.None;
             }
         }
 
