@@ -8,7 +8,10 @@
 
   <ItemGroup>
     <Folder Include="Bookings\Commands\" />
-    <Folder Include="Bookings\Queries\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 
 </Project>
