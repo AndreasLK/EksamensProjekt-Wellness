@@ -1,4 +1,5 @@
-﻿using Domain.ValueObjects;
+﻿using Domain.Enums;
+using Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,23 +15,39 @@ namespace UseCase.Bookings.Queries
     /// <param name="TreatmentName">The name of the treatment.</param>
     /// <param name="PractitionerFullName">The full name of the assigned provider.</param>
     /// <param name="CustomerFullName">The full name of the customer.</param>
-    /// <param name="BasePrice">The price of the treatment.</param>
+    /// <param name="BasePrice">The original price before any discounts.</param>
+    /// <param name="FinalPrice">The actual price the customer must pay.</param>
+    /// <param name="DiscountReason">Reason for discount.</param>
     public record BookingDetailsDto(
         Guid Id,
         TimeSlot TimeSlot,
         string TreatmentName,
         string PractitionerFullName,
         string CustomerFullName,
-        Money BasePrice)
+        Money BasePrice,
+        Money FinalPrice,
+        DiscountReason DiscountReason)
     {
         /// <summary>
-        /// Gets a formatted price string as per Section 5 of the styleguide.
+        /// Value indicating whether the customer received a discount.
         /// </summary>
-        public string PriceDisplay
+        public bool HasDiscount
         {
             get
             {
-                return $"{BasePrice.Amount} {BasePrice.Currency}";
+                return FinalPrice.Amount < BasePrice.Amount;
+            }
+        }
+
+
+        /// <summary>
+        /// Gets the calculated savings. Returns 0 if currencies are mismatched.
+        /// </summary>
+        public decimal SavingsAmount
+        {
+            get
+            {
+                return BasePrice.Amount - FinalPrice.Amount;
             }
         }
     }
