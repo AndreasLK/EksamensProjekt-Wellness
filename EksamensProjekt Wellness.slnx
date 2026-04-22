@@ -4,4 +4,5 @@
   <Project Path="Infrastructure/Infrastructure.csproj" Id="1a6022a2-c5c0-4a55-846a-90ce34ea029a" />
   <Project Path="Server/Server.Client/Client.csproj" Id="c7b0302c-4186-403a-95e2-d2fd21d46379" />
   <Project Path="Server/Server/Server.csproj" Id="7c152db0-5616-41aa-a108-eeb0b7cc6c10" />
+  <Project Path="UseCase/UseCase.csproj" Id="e92870e3-a550-48e0-8606-320def791b5d" />
 </Solution>

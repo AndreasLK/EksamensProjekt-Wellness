@@ -2,7 +2,7 @@
 using Domain.Entities;
 using System.Linq.Expressions;
 
-namespace Domain.Specifications
+namespace Domain.Specifications.Booking
 {
     public class PractitionerNextBookingSpecification : Specification<Booking>
     {

@@ -92,10 +92,10 @@ namespace Domain.Entities
         /// <summary>
         /// Removal logic for certifications in cases of expiration or professional status changes.
         /// </summary>
-        /// <param name="type">The type of authorization to remove.</param>
-        public void RemoveCertification(AuthorizationType type)
+        /// <param name="licenseNumber">Id of certificate to remove.</param>
+        public void RemoveCertification(string licenseNumber)
         {
-            var certification = _certifications.FirstOrDefault(c => c.Type == type);
+            var certification = _certifications.FirstOrDefault(c => c.LicenseNumber == licenseNumber);
             if (certification != null)
             {
                 _certifications.Remove(certification);

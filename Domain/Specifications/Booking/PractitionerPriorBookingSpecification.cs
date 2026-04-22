@@ -2,9 +2,9 @@
 using Domain.Common;
 using System.Linq.Expressions;
 
-namespace Domain.Specifications
+namespace Domain.Specifications.Booking
 {
-    public class PractitionerPriorBookingSpecification : Specification<Booking>
+    public class PractitionerPriorBookingSpecification : Specification<Entities.Booking>
     {
         
         private readonly Guid _practitionerId;
@@ -19,8 +19,8 @@ namespace Domain.Specifications
             Guid practitionerId, 
             DateTimeOffset searchThreshold)
         {
-            _practitionerId = practitionerId;
-            _searchThreshold = searchThreshold;
+            this._practitionerId = practitionerId;
+            this._searchThreshold = searchThreshold;
 
             ApplyOrderByDescending(booking => booking.TimeSlot.EndDateTime);
             ApplyTake(QueryConstants.SINGLE_RESULT_LIMIT);
@@ -30,7 +30,7 @@ namespace Domain.Specifications
         /// <summary>
         /// Translates criteria into LINQ expression for database evaluation.
         /// </summary>
-        public override Expression<Func<Booking, bool>> ToExpression()
+        public override Expression<Func<Entities.Booking, bool>> ToExpression()
         {
             return booking => booking.PractitionerId == _practitionerId
                               && booking.TimeSlot.EndDateTime <= _searchThreshold;
